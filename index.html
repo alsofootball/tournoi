@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tournoi de l'ALSO Football</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: #fff;
+    }
+
+    header {
+      width: 100%;
+      background: #010cfe;
+      text-align: center;
+    }
+
+    header img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .iframe-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+	
+	.astuce-mobile {
+	  display: none;
+	  text-align: center;
+	  font-size: 0.8rem;
+	  color: #010cfe;
+	  background: #fbfa02;
+	  padding: 10px;
+	  font-weight: bold;
+	}
+	
+	@media only screen and (max-width: 768px) {
+      .astuce-mobile {
+        display: block;
+      }
+    }
+
+    iframe {
+      width: 100%;
+      min-height: 450px;
+      border: none;
+      margin: 10px 0;
+      background: white;
+    }
+
+    .iframe-small {
+      min-height: 400px;
+    }
+
+    .iframe-medium {
+      min-height: 760px;
+    }
+
+    .iframe-large {
+      min-height: 1090px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="banniere.png" alt="⚽ Tournoi de l'ALSO Football ⚽">
+  </header>
+  
+  <p class="astuce-mobile">⚽ Astuce : tournez votre écran en paysage pour une meilleure lisibilité !</p>
+
+  <div class="iframe-container">
+    <iframe id="sheet1" class="iframe-large"></iframe>
+    <iframe id="sheet2" class="iframe-small"></iframe>
+    <iframe id="sheet3" class="iframe-medium"></iframe>
+  </div>
+
+  <script>
+    const sheets = [
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1561695512&single=true&widget=false&headers=false",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=369175672&single=true&widget=false&headers=false",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1089293950&single=true&widget=false&headers=false"
+    ];
+
+    function refreshIframes() {
+      const now = Date.now();
+      sheets.forEach((url, i) => {
+        const iframe = document.getElementById(`sheet${i + 1}`);
+        iframe.src = url + "&nocache=" + now;
+      });
+    }
+
+    refreshIframes();
+    setInterval(refreshIframes, 60000);
+  </script>
+
+</body>
+</html>
