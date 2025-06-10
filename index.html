@@ -14,7 +14,7 @@
       --astuce-font-size: 1rem;
 
       --iframe-small-height: 400px;
-      --iframe-medium-height: 760px;
+      --iframe-medium-height: 765px;
       --iframe-large-height: 1090px;
       --refresh-interval: 60000;
     }
@@ -72,7 +72,7 @@
       border: none;
       margin: 10px 0;
       background: var(--background-color);
-      overflow: auto;
+      overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       touch-action: auto;
     }
@@ -145,6 +145,9 @@
           iframe.title = `Tableau ${sheet.id}`;
           iframe.classList.add('iframe', `iframe-${sheet.id}`);
           iframe.setAttribute('scrolling', 'yes');
+          iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.style.overflow = 'auto';
           container.appendChild(iframe);
         });
       }
