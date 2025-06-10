@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Tournoi de l'ALSO Football</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="favicon.png">
   <meta property="og:image" content="https://alsofootball.github.io/tournoi/favicon.png">
   <style>
@@ -14,9 +13,9 @@
       --font-family: sans-serif;
       --astuce-font-size: 1rem;
 
-      --iframe-small-height: 420px;
-      --iframe-medium-height: 770px;
-      --iframe-large-height: 1110px;
+      --iframe-small-height: 400px;
+      --iframe-medium-height: 760px;
+      --iframe-large-height: 1090px;
       --refresh-interval: 60000;
     }
 
@@ -55,7 +54,6 @@
       font-weight: bold;
     }
 
-    /* ✅ Correction ici : valeur directe utilisée */
     @media only screen and (max-width: 1000px) {
       .astuce-mobile {
         display: block;
@@ -94,7 +92,7 @@
     footer {
       background: var(--secondary-color);
       padding: 15px 0;
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       gap: 20px;
