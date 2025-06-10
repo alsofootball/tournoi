@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Tournoi de l'ALSO Football</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="favicon.png">
   <meta property="og:image" content="https://alsofootball.github.io/tournoi/favicon.png">
   <style>
     :root {
-      /* Couleurs et typographie */
       --primary-color: #010cfe;
       --secondary-color: #fbfa02;
       --background-color: white;
       --font-family: sans-serif;
       --astuce-font-size: 1rem;
-      
-      /* Dimensions et intervalle */
+
       --iframe-small-height: 400px;
       --iframe-medium-height: 760px;
       --iframe-large-height: 1090px;
-      --refresh-interval: 60000; /* 60 seconds */
+      --refresh-interval: 60000;
     }
 
     * {
@@ -27,7 +26,7 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       font-family: var(--font-family);
       background: var(--background-color);
     }
@@ -46,13 +45,6 @@
       height: auto;
     }
 
-    .iframe-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-    }
-
     .astuce-mobile {
       display: none;
       text-align: center;
@@ -63,17 +55,28 @@
       font-weight: bold;
     }
 
+    /* ✅ Correction ici : valeur directe utilisée */
     @media only screen and (max-width: 1000px) {
       .astuce-mobile {
         display: block;
       }
     }
 
-    .iframe {
+    .iframe-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    iframe {
       width: 100%;
       border: none;
       margin: 10px 0;
       background: var(--background-color);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: auto;
     }
 
     .iframe-small {
@@ -87,6 +90,22 @@
     .iframe-large {
       min-height: var(--iframe-large-height);
     }
+
+    footer {
+      background: var(--secondary-color);
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    footer img {
+      height: 50px;
+      max-width: 100px;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
@@ -94,10 +113,16 @@
   <header>
     <img src="banniere.png" alt="⚽ Tournoi de l'ALSO Football ⚽">
   </header>
-  
+
   <p class="astuce-mobile">⚽ Astuce : tournez votre écran en paysage pour une meilleure lisibilité !</p>
 
   <div class="iframe-container" id="iframe-container"></div>
+
+  <footer>
+    <img src="sponsor1.png" alt="Sponsor 1">
+    <img src="sponsor2.png" alt="Sponsor 2">
+    <img src="sponsor3.png" alt="Sponsor 3">
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', init);
@@ -114,13 +139,14 @@
       function refreshIframes() {
         const now = Date.now();
         const container = document.getElementById('iframe-container');
-        container.innerHTML = '';  // Clear previous iframes
-        
+        container.innerHTML = '';
+
         sheets.forEach(sheet => {
           const iframe = document.createElement('iframe');
           iframe.src = `${sheet.url}&nocache=${now}`;
           iframe.title = `Tableau ${sheet.id}`;
           iframe.classList.add('iframe', `iframe-${sheet.id}`);
+          iframe.setAttribute('scrolling', 'yes');
           container.appendChild(iframe);
         });
       }
