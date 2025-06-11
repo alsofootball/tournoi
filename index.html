@@ -3,31 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <title>Tournoi de l'ALSO Football</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="favicon.png">
   <meta property="og:image" content="https://alsofootball.github.io/tournoi/favicon.png">
   <style>
+    :root {
+      --primary-color: #010cfe;
+      --secondary-color: #fbfa02;
+      --background-color: white;
+      --font-family: sans-serif;
+      --astuce-font-size: 1rem;
+
+      --iframe-small-height: 400px;
+      --iframe-medium-height: 765px;
+      --iframe-large-height: 1090px;
+      --refresh-interval: 60000;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    body {
-      font-family: sans-serif;
-      background: #fff;
+    html, body {
+      font-family: var(--font-family);
+      background: var(--background-color);
     }
 
     header {
       width: 100%;
-      background: #010cfe;
+      background: var(--primary-color);
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     header img {
       max-width: 100%;
       height: auto;
-      display: block;
-      margin: 0 auto;
+    }
+
+    .astuce-mobile {
+      display: none;
+      text-align: center;
+      font-size: var(--astuce-font-size);
+      color: var(--primary-color);
+      background: var(--secondary-color);
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    @media only screen and (max-width: 1000px) {
+      .astuce-mobile {
+        display: block;
+      }
     }
 
     .iframe-container {
@@ -36,41 +67,43 @@
       align-items: center;
       padding: 10px;
     }
-	
-	.astuce-mobile {
-	  display: none;
-	  text-align: center;
-	  font-size: 1rem;
-	  color: #010cfe;
-	  background: #fbfa02;
-	  padding: 10px;
-	  font-weight: bold;
-	}
-	
-	@media only screen and (max-width: 1000px) {
-	.astuce-mobile {
-	display: block;
-	}
-    }
 
     iframe {
       width: 100%;
-      min-height: 450px;
       border: none;
       margin: 10px 0;
-      background: white;
+      background: var(--background-color);
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      touch-action: auto;
     }
 
     .iframe-small {
-      min-height: 400px;
+      min-height: var(--iframe-small-height);
     }
 
     .iframe-medium {
-      min-height: 760px;
+      min-height: var(--iframe-medium-height);
     }
 
     .iframe-large {
-      min-height: 1090px;
+      min-height: var(--iframe-large-height);
+    }
+
+    footer {
+      background: var(--secondary-color);
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    footer img {
+      height: 50px;
+      max-width: 100px;
+      object-fit: contain;
     }
   </style>
 </head>
@@ -79,32 +112,51 @@
   <header>
     <img src="banniere.png" alt="⚽ Tournoi de l'ALSO Football ⚽">
   </header>
-  
-  <p class="astuce-mobile">⚽ Astuce : tournez votre écran en paysage pour une meilleure lisibilité !</p>
 
-  <div class="iframe-container">
-    <iframe id="sheet1" class="iframe-large"></iframe>
-    <iframe id="sheet2" class="iframe-small"></iframe>
-    <iframe id="sheet3" class="iframe-medium"></iframe>
-  </div>
+  <p class="astuce-mobile">⚽ Astuce : tournez votre écran en paysage pour une meilleure lisibilité !</p>
+
+  <div class="iframe-container" id="iframe-container"></div>
+
+  <footer>
+    <img src="sponsor1.png" alt="Carrosserie Mir">
+    <img src="sponsor2.png" alt="Mon vitrier serrurier">
+    <img src="sponsor3.png" alt="Vendômois pièces auto">
+  </footer>
 
   <script>
-    const sheets = [
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1561695512&single=true&widget=false&headers=false",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=369175672&single=true&widget=false&headers=false",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1089293950&single=true&widget=false&headers=false"
-    ];
+    document.addEventListener('DOMContentLoaded', init);
 
-    function refreshIframes() {
-      const now = Date.now();
-      sheets.forEach((url, i) => {
-        const iframe = document.getElementById(`sheet${i + 1}`);
-        iframe.src = url + "&nocache=" + now;
-      });
+    function init() {
+      const sheets = [
+        { id: 'large', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1561695512&single=true&widget=false&headers=false' },
+        { id: 'small', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=369175672&single=true&widget=false&headers=false' },
+        { id: 'medium', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=1089293950&single=true&widget=false&headers=false' }
+      ];
+
+      const refreshInterval = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--refresh-interval'));
+
+      function refreshIframes() {
+        const now = Date.now();
+        const container = document.getElementById('iframe-container');
+        container.innerHTML = '';
+
+        sheets.forEach(sheet => {
+          const iframe = document.createElement('iframe');
+          iframe.src = `${sheet.url}&nocache=${now}`;
+          iframe.title = `Tableau ${sheet.id}`;
+          iframe.classList.add('iframe', `iframe-${sheet.id}`);
+          iframe.setAttribute('scrolling', 'yes');
+          iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.style.overflow = 'auto';
+          container.appendChild(iframe);
+        });
+      }
+
+      refreshIframes();
+      const intervalId = setInterval(refreshIframes, refreshInterval);
+      window.addEventListener('beforeunload', () => clearInterval(intervalId));
     }
-
-    refreshIframes();
-    setInterval(refreshIframes, 60000);
   </script>
 
 </body>
