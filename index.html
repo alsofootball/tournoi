@@ -7,16 +7,21 @@
   <meta property="og:image" content="https://alsofootball.github.io/tournoi/favicon.png">
   <style>
     :root {
+      /* Couleurs et typographie */
       --primary-color: #010cfe;
       --secondary-color: #fbfa02;
       --background-color: white;
       --font-family: sans-serif;
       --astuce-font-size: 1rem;
-
+      
+      /* Dimensions et intervalle */
       --iframe-small-height: 430px;
       --iframe-medium-height: 795px;
       --iframe-large-height: 1115px;
-      --refresh-interval: 60000;
+      --refresh-interval: 60000; /* 60 seconds */
+	  
+	  /* Sponsors */
+	  --sponsor-visibility: none; /* flex ou none */
     }
 
     * {
@@ -25,7 +30,7 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    body {
       font-family: var(--font-family);
       background: var(--background-color);
     }
@@ -44,6 +49,13 @@
       height: auto;
     }
 
+    .iframe-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
     .astuce-mobile {
       display: none;
       text-align: center;
@@ -60,21 +72,11 @@
       }
     }
 
-    .iframe-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-    }
-
-    iframe {
+    .iframe {
       width: 100%;
       border: none;
       margin: 10px 0;
       background: var(--background-color);
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-      touch-action: auto;
     }
 
     .iframe-small {
@@ -88,11 +90,11 @@
     .iframe-large {
       min-height: var(--iframe-large-height);
     }
-
-    footer {
+	
+	footer {
       background: var(--secondary-color);
       padding: 15px 0;
-      display: flex;
+      display: var(--sponsor-visibility);
       justify-content: center;
       align-items: center;
       gap: 20px;
@@ -111,7 +113,7 @@
   <header>
     <img src="banniere.png" alt="⚽ Tournoi de l'ALSO Football ⚽">
   </header>
-
+  
   <p class="astuce-mobile">⚽ Astuce : tournez votre écran en paysage pour une meilleure lisibilité !</p>
 
   <div class="iframe-container" id="iframe-container"></div>
@@ -137,17 +139,13 @@
       function refreshIframes() {
         const now = Date.now();
         const container = document.getElementById('iframe-container');
-        container.innerHTML = '';
-
+        container.innerHTML = '';  // Clear previous iframes
+        
         sheets.forEach(sheet => {
           const iframe = document.createElement('iframe');
           iframe.src = `${sheet.url}&nocache=${now}`;
           iframe.title = `Tableau ${sheet.id}`;
           iframe.classList.add('iframe', `iframe-${sheet.id}`);
-          iframe.setAttribute('scrolling', 'yes');
-          iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
-          iframe.setAttribute('allowfullscreen', '');
-          iframe.style.overflow = 'auto';
           container.appendChild(iframe);
         });
       }
