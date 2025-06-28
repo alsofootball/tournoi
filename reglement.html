@@ -1,11 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <script>
-    window.location.href = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=2006837218&single=true&widget=false&headers=false&nocache=" + Date.now();
-  </script>
+  <title>Règlement du tournoi – ALSO Football</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:image" content="https://alsofootball.github.io/tournoi/favicon.png">
+  <style>
+    :root {
+      --primary-color: #010cfe;
+      --secondary-color: #fbfa02;
+      --background-color: white;
+      --font-family: sans-serif;
+      --iframe-height: 580px;
+      --sponsor-visibility: flex;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--background-color);
+    }
+
+    header {
+      width: 100%;
+      background: var(--primary-color);
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .iframe-container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 1200px;
+      height: var(--iframe-height);
+      border: none;
+      background: var(--background-color);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .back-link a {
+      background-color: var(--secondary-color);
+      border: 2px solid var(--primary-color);
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link a:hover {
+      background-color: #fff200;
+    }
+
+    footer {
+      background: var(--secondary-color);
+      padding: 15px 0;
+      display: var(--sponsor-visibility);
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    footer img {
+      height: 50px;
+      max-width: 100px;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
+
+  <header>
+    <img src="banniere.png" alt="⚽ Tournoi de l'ALSO Football ⚽">
+  </header>
+
+  <div class="iframe-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3uatESAbIOdP0blcplunlMcQXKtUJMnX5WGgx-IAj5eI_dp5auhjyfgabqy-0XLp11eqqyOIFGq-i/pubhtml?gid=2006837218&single=true&widget=false&headers=false&nocache=<?= Date.now() ?>" title="Règlement du tournoi"></iframe>
+
+    <div class="back-link">
+      <a href="index.html">← Retour à la page d’accueil</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="sponsor1.png" alt="Carrosserie Mir">
+    <img src="sponsor2.png" alt="Mon vitrier serrurier">
+    <img src="sponsor3.png" alt="Vendômois pièces auto">
+    <img src="sponsor4.png" alt="GAN Vendôme">
+  </footer>
+
 </body>
 </html>
